@@ -61,26 +61,29 @@ class Ball {
             if (distance <= this.size + balls[j].size) {
               balls[j].color = this.color = 'rgb(' + random(0, 255) + ',' + random(0, 255) + ',' + random(0, 255) +')';
               if(balls[j].velX > 0 && this.velX > 0 || balls[j].velX < 0 && this.velX < 0){
-                balls[j].velY = -(balls[j].velY)
-                this.velY = -(this.velY)
+                if(balls[j].velY > 0 && this.velY > 0 || balls[j].velY < 0 && this.velY < 0){
+                  let x1 = balls[j].velX
+                  balls[j].velX = (balls[j].velY)
+                  balls[j].velY = x1
+                  let x2 = this.velX
+                  this.velX = (this.velY)
+                  this.velY = x2
+                }else if(balls[j].velY < 0 && this.velY > 0 || balls[j].velY > 0 && this.velY < 0){
+                  balls[j].velY = -(balls[j].velY)
+                  this.velY = -(this.velY)
+                }
               }else if(balls[j].velX < 0 && this.velX > 0 || balls[j].velX > 0 && this.velX < 0){
                 balls[j].velX = -(balls[j].velX)
                 this.velX = -(this.velX)
+                if(balls[j].velY < 0 && this.velY > 0 || balls[j].velY > 0 && this.velY < 0){
+                  balls[j].velY = -(balls[j].velY)
+                  this.velY = -(this.velY)
+                }
               }
-              if(balls[j].velY > 0 && this.velY > 0 || balls[j].velY < 0 && this.velY < 0){
-                balls[j].velX = -(balls[j].velX)
-                this.velX = -(this.velX)
-              }else if(balls[j].velY < 0 && this.velY > 0 || balls[j].velY > 0 && this.velY < 0){
-                balls[j].velY = -(balls[j].velY)
-                this.velY = -(this.velY)
-              }
+              
             }
           }
         }
-    }
-
-    physics() {
-
     }
 }
 
@@ -92,8 +95,8 @@ function loop() {
     ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
     ctx.fillRect(0, 0, width, height);
   
-    while (balls.length < 20) {
-      let size = random(10,20);
+    while (balls.length < 10) {
+      let size = 20//random(10,20);
       let ball = new Ball(
         // ball position always drawn at least one ball width
         // away from the edge of the canvas, to avoid drawing errors
